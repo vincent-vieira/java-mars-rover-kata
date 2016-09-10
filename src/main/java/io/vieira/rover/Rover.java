@@ -19,6 +19,9 @@ public class Rover implements Commandable<Rover> {
         if(point.getX() >= visitedPlanet.getWidth() || point.getY() >= visitedPlanet.getHeight()){
             throw new IllegalArgumentException("The Rover is trying to be placed outside of its planet !");
         }
+        if(visitedPlanet.getObstacles().indexOf(point) != -1){
+            throw new IllegalArgumentException("The Rover can't be put on an obstacle.");
+        }
         this.visitedPlanet = visitedPlanet;
         this.position = point;
         this.facingDirection = facingDirection;

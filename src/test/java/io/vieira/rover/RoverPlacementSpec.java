@@ -59,6 +59,14 @@ public class RoverPlacementSpec {
     }
 
     @Test
+    public void roverAndObstacleShouldNotBeOverlapping(){
+        assertThatThrownBy(() -> new Rover(new Planet(6, 6, Collections.singletonList(new Point(5, 5))), new Point(5, 5), Direction.EAST))
+                .hasNoCause()
+                .hasMessage("The Rover can't be put on an obstacle.")
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void roverShouldBeProperlyInitialized(){
         assertThat(roverEngine)
                 .hasFieldOrPropertyWithValue("visitedPlanet", visitedPlanet)
