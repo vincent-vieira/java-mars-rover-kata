@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RoverMovementFromWestSpec {
 
     private Rover roverEngine;
-    //TODO : change obstacles position to differ from other tests
     private final List<Point> obstacles = Arrays.asList(new Point(4, 4), new Point(5, 1));
     private final Point initialRoverPosition = new Point(5, 5);
 
@@ -143,6 +142,26 @@ public class RoverMovementFromWestSpec {
         roverEngine.receiveCommands("FFFFFFF");
         assertThat(roverEngine)
                 .hasFieldOrPropertyWithValue("position.x", 5)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleInternally(){
+        roverEngine.moveForward();
+        assertThat(roverEngine.moveLeft()).isEqualTo(false);
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 4)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleUsingPublicAPI(){
+        roverEngine.receiveCommands("F");
+        assertThat(roverEngine.receiveCommand('L')).isEqualTo(false);
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 4)
                 .hasFieldOrPropertyWithValue("position.y", 5)
                 .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
     }

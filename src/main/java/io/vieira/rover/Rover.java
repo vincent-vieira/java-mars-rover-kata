@@ -1,15 +1,14 @@
 package io.vieira.rover;
 
-import io.vieira.rover.movement.Commandable;
 import io.vieira.rover.movement.Direction;
 import io.vieira.rover.movement.Point;
 
 /**
- * Rover engine main class. Only methods exposed through {@link Commandable} are exposed, all remaining ones are designed to be an internal API (for tests, as an example).
+ * Rover engine main class. Only the necessary public methods are exposed, all remaining ones are designed to be an internal API (for tests, as an example).
  *
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
-public class Rover implements Commandable<Rover> {
+public class Rover {
 
     private final Planet visitedPlanet;
     private Point position;
@@ -17,70 +16,81 @@ public class Rover implements Commandable<Rover> {
 
     public Rover(Planet visitedPlanet, Point point, Direction facingDirection) {
         if(point.getX() >= visitedPlanet.getWidth() || point.getY() >= visitedPlanet.getHeight()){
-            throw new IllegalArgumentException("The rover is trying to be placed outside of its planet !");
+            throw new IllegalArgumentException("The Rover is trying to be placed outside of its planet !");
+        }
+        if(visitedPlanet.getObstacles().indexOf(point) != -1){
+            throw new IllegalArgumentException("The Rover can't be put on an obstacle.");
         }
         this.visitedPlanet = visitedPlanet;
         this.position = point;
         this.facingDirection = facingDirection;
     }
 
-    @Override
-    public final Rover receiveCommand(char command){
+    final boolean receiveCommand(char command){
         switch(Character.toUpperCase(command)){
             case 'F':
-                moveForward();
-                break;
+                return moveForward();
             case 'B':
-                moveBackward();
-                break;
+                return moveBackward();
             case 'L':
-                moveLeft();
-                break;
+                return moveLeft();
             case 'R':
-                moveRight();
-                break;
+                return moveRight();
             default:
                 throw new IllegalArgumentException("Unknown command");
         }
-        return this;
     }
 
-    void moveForward() {
-        move();
+    final boolean receiveCommands(String commands){
+        for(char command : commands.toCharArray()){
+            if(!receiveCommand(command)){
+                return false;
+            }
+        }
+        return true;
     }
 
-    void moveBackward() {
-        facingDirection = facingDirection.goBackward();
-        move();
+    boolean moveForward() {
+        return move(facingDirection);
     }
 
-    void moveLeft() {
-        facingDirection = facingDirection.goLeft();
-        move();
+    boolean moveBackward() {
+        return move(facingDirection.goBackward());
     }
 
-    void moveRight() {
-        facingDirection = facingDirection.goRight();
-        move();
+    boolean moveLeft() {
+        return move(facingDirection.goLeft());
     }
 
-    private void move(){
+    boolean moveRight() {
+        return move(facingDirection.goRight());
+    }
+
+    private boolean move(Direction facingDirection){
         int maxX = visitedPlanet.getWidth();
         int maxY = visitedPlanet.getHeight();
 
+        Point newPosition = null;
         switch(facingDirection){
             case NORTH:
-                this.position = new Point(this.position.getX(), (this.position.getY() + 1) % maxY);
+                newPosition = new Point(this.position.getX(), (this.position.getY() + 1) % maxY);
                 break;
             case SOUTH:
-                this.position = new Point(this.position.getX(), (maxY + this.position.getY() - 1) % maxY);
+                newPosition = new Point(this.position.getX(), (maxY + this.position.getY() - 1) % maxY);
                 break;
             case WEST:
-                this.position = new Point((maxX + this.position.getX() - 1) % maxX, this.position.getY());
+                newPosition = new Point((maxX + this.position.getX() - 1) % maxX, this.position.getY());
                 break;
             case EAST:
-                this.position = new Point((this.position.getX() + 1) % maxX, this.position.getY());
+                newPosition = new Point((this.position.getX() + 1) % maxX, this.position.getY());
                 break;
         }
+
+        boolean newPositionHasObstacle = this.visitedPlanet.getObstacles().indexOf(newPosition) != -1;
+        if(!newPositionHasObstacle){
+            this.position = newPosition;
+            this.facingDirection = facingDirection;
+        }
+        return !newPositionHasObstacle;
     }
 }

@@ -51,6 +51,22 @@ public class RoverPlacementSpec {
     }
 
     @Test
+    public void planetShouldOnlyAcceptInBoundsObstacles(){
+        assertThatThrownBy(() -> new Planet(6, 6, Collections.singletonList(new Point(6, 6))))
+                .hasNoCause()
+                .hasMessage("Obstacle at position '%d,%d' is out of bounds", 6, 6)
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void roverAndObstacleShouldNotBeOverlapping(){
+        assertThatThrownBy(() -> new Rover(new Planet(6, 6, Collections.singletonList(new Point(5, 5))), new Point(5, 5), Direction.EAST))
+                .hasNoCause()
+                .hasMessage("The Rover can't be put on an obstacle.")
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void roverShouldBeProperlyInitialized(){
         assertThat(roverEngine)
                 .hasFieldOrPropertyWithValue("visitedPlanet", visitedPlanet)
@@ -67,7 +83,7 @@ public class RoverPlacementSpec {
                 .hasFieldOrPropertyWithValue("position.y", 0);
 
         assertThatThrownBy(() -> new Rover(new Planet(1, 1, Collections.emptyList()), new Point(1, 1), facingRoverDirection))
-                .hasMessage("The rover is trying to be placed outside of its planet !")
+                .hasMessage("The Rover is trying to be placed outside of its planet !")
                 .hasNoCause()
                 .isInstanceOf(IllegalArgumentException.class);
     }
