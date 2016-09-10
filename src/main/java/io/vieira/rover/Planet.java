@@ -20,6 +20,13 @@ public class Planet {
     public Planet(int width, int height, List<Point> obstacles) {
         this.width = width;
         this.height = height;
+        for(Point obstacle : obstacles){
+            if(obstacle.getX() >= width || obstacle.getY() >= height){
+                throw new IllegalArgumentException(
+                        String.format("Obstacle at position '%d,%d' is out of bounds", obstacle.getX(), obstacle.getY())
+                );
+            }
+        }
         this.obstacles = obstacles;
     }
 }

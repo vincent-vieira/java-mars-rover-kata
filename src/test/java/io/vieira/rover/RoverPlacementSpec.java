@@ -51,6 +51,14 @@ public class RoverPlacementSpec {
     }
 
     @Test
+    public void planetShouldOnlyAcceptInBoundsObstacles(){
+        assertThatThrownBy(() -> new Planet(6, 6, Collections.singletonList(new Point(6, 6))))
+                .hasNoCause()
+                .hasMessage("Obstacle at position '%d,%d' is out of bounds", 6, 6)
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void roverShouldBeProperlyInitialized(){
         assertThat(roverEngine)
                 .hasFieldOrPropertyWithValue("visitedPlanet", visitedPlanet)
