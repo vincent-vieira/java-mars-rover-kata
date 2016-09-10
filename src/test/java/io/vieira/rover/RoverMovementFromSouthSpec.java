@@ -18,8 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RoverMovementFromSouthSpec {
 
     private Rover roverEngine;
-    //TODO : change obstacles position to differ from other tests
-    private final List<Point> obstacles = Arrays.asList(new Point(4, 4), new Point(5, 1));
+    private final List<Point> obstacles = Arrays.asList(new Point(4, 6), new Point(2, 1));
     private final Point initialRoverPosition = new Point(6, 6);
 
     @Before
@@ -145,5 +144,27 @@ public class RoverMovementFromSouthSpec {
                 .hasFieldOrPropertyWithValue("position.x", 6)
                 .hasFieldOrPropertyWithValue("position.y", 2)
                 .hasFieldOrPropertyWithValue("facingDirection", Direction.SOUTH);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleInternally(){
+        roverEngine.moveForward();
+        roverEngine.moveRight();
+        roverEngine.moveForward();
+        assertThat(roverEngine.moveRight()).isEqualTo(false);
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 4)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleUsingPublicAPI(){
+        roverEngine.receiveCommands("FRF");
+        assertThat(roverEngine.receiveCommand('R')).isEqualTo(false);
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 4)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
     }
 }

@@ -5,7 +5,7 @@ import io.vieira.rover.movement.Point;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,8 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RoverMovementFromNorthSpec {
 
     private Rover roverEngine;
-    //TODO : change obstacles position to differ from other tests
-    private final List<Point> obstacles = Arrays.asList(new Point(4, 4), new Point(5, 1));
+    private final List<Point> obstacles = Collections.singletonList(new Point(3, 3));
     private final Point initialRoverPosition = new Point(2, 1);
 
     @Before
@@ -141,6 +140,27 @@ public class RoverMovementFromNorthSpec {
     @Test
     public void roverShouldFollowEdgeWrappingUsingPublicAPI(){
         roverEngine.receiveCommands("FFFFFF");
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 2)
+                .hasFieldOrPropertyWithValue("position.y", 3)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.NORTH);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleInternally(){
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        assertThat(roverEngine.moveRight()).isEqualTo(false);
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 2)
+                .hasFieldOrPropertyWithValue("position.y", 3)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.NORTH);
+    }
+
+    @Test
+    public void roverShouldStopWhenHeMeetsAnObstacleUsingPublicAPI(){
+        roverEngine.receiveCommands("FF");
+        assertThat(roverEngine.receiveCommand('R')).isEqualTo(false);
         assertThat(roverEngine)
                 .hasFieldOrPropertyWithValue("position.x", 2)
                 .hasFieldOrPropertyWithValue("position.y", 3)
