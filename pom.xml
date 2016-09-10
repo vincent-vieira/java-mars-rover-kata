@@ -11,6 +11,7 @@
     <properties>
         <maven.surefire.version>2.19.1</maven.surefire.version>
         <maven.compiler.version>3.5.1</maven.compiler.version>
+        <maven.javadoc.version>2.10.3</maven.javadoc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
@@ -61,6 +62,20 @@
                         <include>io.vieira.rover.*</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.version}</version>
+                <executions>
+                    <execution>
+                        <id>process-sources</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

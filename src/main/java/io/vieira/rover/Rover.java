@@ -26,6 +26,12 @@ public final class Rover {
         this.facingDirection = facingDirection;
     }
 
+    /**
+     * Receives a single command to move the rover.
+     *
+     * @param command the character representing the command. Valid values are : F,B,L,R, nominatively for Forward-Backward-Left-Right. Any invalid command will throw an {@link IllegalArgumentException}.
+     * @return a boolean showing if the command succeeded or not
+     */
     public final boolean receiveCommand(char command){
         switch(Character.toUpperCase(command)){
             case 'F':
@@ -41,6 +47,12 @@ public final class Rover {
         }
     }
 
+    /**
+     * Receives multiple commands and dispatch them to the rover.
+     *
+     * @param commands a string containing multiple characters. Any invalid command into this string will throw an {@link IllegalArgumentException}.
+     * @return a boolean showing if the command succeeded or not
+     */
     public final boolean receiveCommands(String commands){
         for(char command : commands.toCharArray()){
             if(!receiveCommand(command)){
