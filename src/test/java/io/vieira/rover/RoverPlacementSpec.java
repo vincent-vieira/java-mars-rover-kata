@@ -75,7 +75,7 @@ public class RoverPlacementSpec {
                 .hasFieldOrPropertyWithValue("position.y", 0);
 
         assertThatThrownBy(() -> new Rover(new Planet(1, 1, Collections.emptyList()), new Point(1, 1), facingRoverDirection))
-                .hasMessage("The rover is trying to be placed outside of its planet !")
+                .hasMessage("The Rover is trying to be placed outside of its planet !")
                 .hasNoCause()
                 .isInstanceOf(IllegalArgumentException.class);
     }
