@@ -123,5 +123,27 @@ public class RoverMovementFromWestSpec {
                 .hasFieldOrPropertyWithValue("facingDirection", Direction.EAST);
     }
 
-    //TODO : overlap check when implementation will allow this
+    @Test
+    public void roverShouldFollowEdgeWrappingInternally(){
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        roverEngine.moveForward();
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 5)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
+    }
+
+    @Test
+    public void roverShouldFollowEdgeWrappingUsingPublicAPI(){
+        roverEngine.receiveCommands("FFFFFFF");
+        assertThat(roverEngine)
+                .hasFieldOrPropertyWithValue("position.x", 5)
+                .hasFieldOrPropertyWithValue("position.y", 5)
+                .hasFieldOrPropertyWithValue("facingDirection", Direction.WEST);
+    }
 }

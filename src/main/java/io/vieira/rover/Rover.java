@@ -5,7 +5,7 @@ import io.vieira.rover.movement.Direction;
 import io.vieira.rover.movement.Point;
 
 /**
- * Rover engine main class. Only methods exposed through {@link Commandable} are exposed, all remaining ones are designed to be an internal API (for tests, as and example).
+ * Rover engine main class. Only methods exposed through {@link Commandable} are exposed, all remaining ones are designed to be an internal API (for tests, as an example).
  *
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
@@ -65,19 +65,21 @@ public class Rover implements Commandable<Rover> {
     }
 
     private void move(){
-        //TODO : wrap when out of bounds ?
+        int maxX = visitedPlanet.getWidth();
+        int maxY = visitedPlanet.getHeight();
+
         switch(facingDirection){
             case NORTH:
-                this.position = new Point(this.position.getX(), this.position.getY() + 1);
+                this.position = new Point(this.position.getX(), (this.position.getY() + 1) % maxY);
                 break;
             case SOUTH:
-                this.position = new Point(this.position.getX(), this.position.getY() - 1);
+                this.position = new Point(this.position.getX(), (maxY + this.position.getY() - 1) % maxY);
                 break;
             case WEST:
-                this.position = new Point(this.position.getX() - 1, this.position.getY());
+                this.position = new Point((maxX + this.position.getX() - 1) % maxX, this.position.getY());
                 break;
             case EAST:
-                this.position = new Point(this.position.getX() + 1, this.position.getY());
+                this.position = new Point((this.position.getX() + 1) % maxX, this.position.getY());
                 break;
         }
     }
