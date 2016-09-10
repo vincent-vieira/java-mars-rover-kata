@@ -11,7 +11,7 @@ import java.util.List;
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
 @Getter
-public class Planet {
+public final class Planet {
 
     private final int width;
     private final int height;

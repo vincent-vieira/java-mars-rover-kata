@@ -8,7 +8,7 @@ import io.vieira.rover.movement.Point;
  *
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
-public class Rover {
+public final class Rover {
 
     private final Planet visitedPlanet;
     private Point position;
@@ -26,7 +26,7 @@ public class Rover {
         this.facingDirection = facingDirection;
     }
 
-    final boolean receiveCommand(char command){
+    public final boolean receiveCommand(char command){
         switch(Character.toUpperCase(command)){
             case 'F':
                 return moveForward();
@@ -41,7 +41,7 @@ public class Rover {
         }
     }
 
-    final boolean receiveCommands(String commands){
+    public final boolean receiveCommands(String commands){
         for(char command : commands.toCharArray()){
             if(!receiveCommand(command)){
                 return false;

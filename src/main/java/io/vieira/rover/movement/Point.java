@@ -8,7 +8,7 @@ import lombok.Getter;
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
 @Getter
-public class Point {
+public final class Point {
 
     private final int x;
     private final int y;

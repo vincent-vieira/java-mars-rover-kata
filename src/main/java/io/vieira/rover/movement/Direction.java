@@ -25,19 +25,19 @@ public enum Direction {
     }
 
     //Forward direction is the same, we don't need to create another method to expose it.
-    public Direction goBackward() {
+    public final Direction goBackward() {
         return values()[(directionCode + 2) % 4];
     }
 
-    public Direction goLeft(){
+    public final Direction goLeft(){
         return getDirection(-1);
     }
 
-    public Direction goRight(){
+    public final Direction goRight(){
         return getDirection(1);
     }
 
-    public Direction getDirection(int directionStep){
+    private Direction getDirection(int directionStep){
         Direction[] values = values();
         int index = (values.length + directionCode + directionStep) % values.length;
         return values[index];
