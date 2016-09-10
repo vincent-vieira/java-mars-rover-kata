@@ -19,25 +19,45 @@ public enum Direction {
         this.directionCode = directionCode;
     }
 
+    /**
+     * Generates a random direction.
+     *
+     * @return the generated random direction
+     */
     public static Direction random(){
         Direction[] values = values();
         return values[new Random().nextInt(values.length)];
     }
 
+    /**
+     * Gives the backward direction, relative to this instance.
+     *
+     * @return the backward direction
+     */
     //Forward direction is the same, we don't need to create another method to expose it.
-    public Direction goBackward() {
+    public final Direction goBackward() {
         return values()[(directionCode + 2) % 4];
     }
 
-    public Direction goLeft(){
+    /**
+     * Gives the left direction, relative to this instance.
+     *
+     * @return the left direction
+     */
+    public final Direction goLeft(){
         return getDirection(-1);
     }
 
-    public Direction goRight(){
+    /**
+     * Gives the right direction, relative to this instance.
+     *
+     * @return the right direction
+     */
+    public final Direction goRight(){
         return getDirection(1);
     }
 
-    public Direction getDirection(int directionStep){
+    private Direction getDirection(int directionStep){
         Direction[] values = values();
         int index = (values.length + directionCode + directionStep) % values.length;
         return values[index];

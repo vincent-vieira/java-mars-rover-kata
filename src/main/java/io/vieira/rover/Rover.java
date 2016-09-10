@@ -8,7 +8,7 @@ import io.vieira.rover.movement.Point;
  *
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
-public class Rover {
+public final class Rover {
 
     private final Planet visitedPlanet;
     private Point position;
@@ -26,7 +26,13 @@ public class Rover {
         this.facingDirection = facingDirection;
     }
 
-    final boolean receiveCommand(char command){
+    /**
+     * Receives a single command to move the rover.
+     *
+     * @param command the character representing the command. Valid values are : F,B,L,R, nominatively for Forward-Backward-Left-Right. Any invalid command will throw an {@link IllegalArgumentException}.
+     * @return a boolean showing if the command succeeded or not
+     */
+    public final boolean receiveCommand(char command){
         switch(Character.toUpperCase(command)){
             case 'F':
                 return moveForward();
@@ -41,7 +47,13 @@ public class Rover {
         }
     }
 
-    final boolean receiveCommands(String commands){
+    /**
+     * Receives multiple commands and dispatch them to the rover.
+     *
+     * @param commands a string containing multiple characters. Any invalid command into this string will throw an {@link IllegalArgumentException}.
+     * @return a boolean showing if the command succeeded or not
+     */
+    public final boolean receiveCommands(String commands){
         for(char command : commands.toCharArray()){
             if(!receiveCommand(command)){
                 return false;
