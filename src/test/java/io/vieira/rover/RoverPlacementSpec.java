@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test checking if all the rover's basic placement routines are valid.
@@ -25,6 +26,18 @@ public class RoverPlacementSpec {
         Random random = new Random();
         initialRoverCoordinates = new Point(random.nextInt(10), random.nextInt(1));
         this.roverEngine = new Rover(initialRoverCoordinates, facingRoverDirection);
+    }
+
+    @Test
+    public void isPointOnlyAcceptingPositiveIntegers(){
+        assertThat(new Point(1, 0))
+                .hasFieldOrPropertyWithValue("x", 1)
+                .hasFieldOrPropertyWithValue("y", 0);
+
+        assertThatThrownBy(() -> new Point(-1, 0))
+                .hasMessage("Supplied coordinates must be positive")
+                .hasNoCause()
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

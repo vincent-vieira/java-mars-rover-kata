@@ -14,6 +14,9 @@ public class Point {
     private final int y;
 
     public Point(int x, int y) {
+        if(x < 0 || y < 0){
+            throw new IllegalArgumentException("Supplied coordinates must be positive");
+        }
         this.x = x;
         this.y = y;
     }
