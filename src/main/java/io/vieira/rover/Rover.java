@@ -18,7 +18,7 @@ public final class Rover {
         if(point.getX() >= visitedPlanet.getWidth() || point.getY() >= visitedPlanet.getHeight()){
             throw new IllegalArgumentException("The Rover is trying to be placed outside of its planet !");
         }
-        if(visitedPlanet.getObstacles().indexOf(point) != -1){
+        if(visitedPlanet.getObstacles().contains(point)){
             throw new IllegalArgumentException("The Rover can't be put on an obstacle.");
         }
         this.visitedPlanet = visitedPlanet;
@@ -98,7 +98,7 @@ public final class Rover {
                 break;
         }
 
-        boolean newPositionHasObstacle = this.visitedPlanet.getObstacles().indexOf(newPosition) != -1;
+        boolean newPositionHasObstacle = this.visitedPlanet.getObstacles().contains(newPosition);
         if(!newPositionHasObstacle){
             this.position = newPosition;
             this.facingDirection = facingDirection;
