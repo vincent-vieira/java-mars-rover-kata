@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RoverMovementFromNorthSpec {
 
     private Rover roverEngine;
-    private final List<Point> obstacles = Collections.singletonList(new Point(3, 3));
+    private final Set<Point> obstacles = new TreeSet<>(Collections.singletonList(new Point(3, 3)));
     private final Point initialRoverPosition = new Point(2, 1);
 
     @Before

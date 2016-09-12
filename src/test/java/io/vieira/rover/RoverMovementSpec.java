@@ -21,7 +21,7 @@ public class RoverMovementSpec {
 
     @Before
     public void setupRover(){
-        Planet visitedPlanet = new Planet(6, 6, Collections.emptyList());
+        Planet visitedPlanet = new Planet(6, 6, Collections.emptySet());
         roverEngine = new Rover(visitedPlanet, initialRoverPosition, Direction.random());
     }
 

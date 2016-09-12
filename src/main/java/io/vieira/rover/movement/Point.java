@@ -2,13 +2,15 @@ package io.vieira.rover.movement;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 /**
  * Class representing the x and y coordinates of any object on the {@link io.vieira.rover.Planet}.
  *
  * @author <a href="mailto:vincent.vieira@supinfo.com">Vincent Vieira</a>
  */
 @Getter
-public final class Point {
+public final class Point implements Comparable<Point> {
 
     /**
      * Starts from 0
@@ -43,6 +45,16 @@ public final class Point {
     public int hashCode() {
         int result = x;
         result = 31 * result + y;
+        return result;
+    }
+
+    @Override
+    public int compareTo(Point point) {
+        Objects.requireNonNull(point);
+        int result = Integer.compare(this.x, point.getX());
+        if (result == 0) {
+            result = Integer.compare(this.y, point.getY());
+        }
         return result;
     }
 }
